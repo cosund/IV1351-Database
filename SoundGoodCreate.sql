@@ -43,7 +43,7 @@ CREATE TABLE student (
  student_id VARCHAR(10) NOT NULL,
  personal_nr VARCHAR(12) NOT NULL,
  parent_number VARCHAR(15),
- parent_email VARCHAR(10)
+ parent_email VARCHAR(255)
 );
 
 ALTER TABLE student ADD CONSTRAINT PK_student PRIMARY KEY (student_id);

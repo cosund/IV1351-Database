@@ -51,18 +51,42 @@ INNER JOIN booked_lessons ON schedule.schedule_id=booked_lessons.schedule_id
 WHERE EXTRACT(WEEK FROM timeslot)=EXTRACT(WEEK FROM current_date+7)
 ORDER BY ensamblelesson.genre, timeslot;
 
-SELECT * FROM booked_lessons;
-SELECT * FROM participants;
-SELECT * FROM ensamblelesson;
-SELECT * FROM schedule;
-SELECT * FROM priceclass;
-
+-- Task 4
 
 SELECT * FROM instrument;
 SELECT * FROM rentalinstruments;
+SELECT * FROM rentableinstruments;
 
-SELECT type
-FROM instrument
-WHERE type=?;
+SELECT rentableinstruments.rentable_id, instrument.type, instrument.brand, instrument.instrument_price
+FROM rentableinstruments
+INNER JOIN instrument ON rentableinstruments.rental_instrument_id=instrument.rental_instrument_id 
+WHERE rentableinstruments.rentable_id
+NOT IN (
+SELECT rentable_id FROM rentalinstruments 
+WHERE current_date >= from_date and current_date < to_date)
+AND instrument.type='Piano';
 
--- ändra integer på min och max students på astah och sql kod
+--checking student rental
+SELECT COUNT(*) FROM rentalinstruments WHERE student_id='3' AND current_date < to_date;
+
+--checking if instrument is available
+SELECT COUNT(*) 
+FROM rentableinstruments 
+WHERE rentableinstruments.rentable_id='1' AND  rentableinstruments.rentable_id NOT IN (
+SELECT rental_id 
+FROM rentalinstruments
+WHERE current_date >= from_date AND current_date < to_date); 
+
+--insert a new rental
+INSERT INTO rentalinstruments
+VALUES ('14', '4', '0',current_date, current_date+365);
+
+--terminate a rental
+UPDATE rentalinstruments 
+SET to_date = current_date 
+WHERE rental_id = (
+SELECT rental_id 
+FROM rentalinstruments
+WHERE rentable_id='8' AND student_id='3'
+AND current_date < to_date
+ORDER BY to_date DESC LIMIT 1);

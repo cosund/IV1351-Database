@@ -49,6 +49,14 @@ CREATE TABLE priceClass (
 ALTER TABLE priceClass ADD CONSTRAINT PK_priceClass PRIMARY KEY (price_id);
 
 
+CREATE TABLE rentableInstruments (
+ rentable_id VARCHAR(10) NOT NULL,
+ rental_instrument_id VARCHAR(10) NOT NULL
+);
+
+ALTER TABLE rentableInstruments ADD CONSTRAINT PK_rentableInstruments PRIMARY KEY (rentable_id);
+
+
 CREATE TABLE student (
  student_id VARCHAR(10) NOT NULL,
  personal_nr VARCHAR(12) NOT NULL,
@@ -79,13 +87,14 @@ ALTER TABLE instructor ADD CONSTRAINT PK_instructor PRIMARY KEY (instructor_id);
 
 
 CREATE TABLE rentalInstruments (
- rental_instrument_id VARCHAR(10) NOT NULL,
- student_id VARCHAR(10) NOT NULL,
+ rental_id VARCHAR(10) NOT NULL,
+ rentable_id VARCHAR(10) NOT NULL,
+ student_id VARCHAR(10),
  from_date TIMESTAMP(0),
  to_date TIMESTAMP(0)
 );
 
-ALTER TABLE rentalInstruments ADD CONSTRAINT PK_rentalInstruments PRIMARY KEY (rental_instrument_id);
+ALTER TABLE rentalInstruments ADD CONSTRAINT PK_rentalInstruments PRIMARY KEY (rental_id);
 
 
 CREATE TABLE schedule (
@@ -133,12 +142,15 @@ ALTER TABLE participants ADD CONSTRAINT PK_participants PRIMARY KEY (student_id,
 
 
 CREATE TABLE studentFees (
- rental_instrument_id VARCHAR(10),
+ rental_id VARCHAR(10),
  student_id VARCHAR(10) NOT NULL,
  pay_from_date TIMESTAMP(0),
  pay_to_date TIMESTAMP(0),
  sibling_discount BIT(1)
 );
+
+
+ALTER TABLE rentableInstruments ADD CONSTRAINT FK_rentableInstruments_0 FOREIGN KEY (rental_instrument_id) REFERENCES instrument (rental_instrument_id);
 
 
 ALTER TABLE student ADD CONSTRAINT FK_student_0 FOREIGN KEY (personal_nr) REFERENCES person (personal_nr);
@@ -150,7 +162,7 @@ ALTER TABLE enrollApplication ADD CONSTRAINT FK_enrollApplication_0 FOREIGN KEY 
 ALTER TABLE instructor ADD CONSTRAINT FK_instructor_0 FOREIGN KEY (personal_nr) REFERENCES person (personal_nr);
 
 
-ALTER TABLE rentalInstruments ADD CONSTRAINT FK_rentalInstruments_0 FOREIGN KEY (rental_instrument_id) REFERENCES instrument (rental_instrument_id);
+ALTER TABLE rentalInstruments ADD CONSTRAINT FK_rentalInstruments_0 FOREIGN KEY (rentable_id) REFERENCES rentableInstruments (rentable_id);
 ALTER TABLE rentalInstruments ADD CONSTRAINT FK_rentalInstruments_1 FOREIGN KEY (student_id) REFERENCES student (student_id);
 
 
@@ -175,6 +187,6 @@ ALTER TABLE participants ADD CONSTRAINT FK_participants_1 FOREIGN KEY (schedule_
 
 
 ALTER TABLE studentFees ADD CONSTRAINT FK_studentFees_0 FOREIGN KEY (student_id) REFERENCES student (student_id);
-ALTER TABLE studentFees ADD CONSTRAINT FK_studentFees_1 FOREIGN KEY (rental_instrument_id) REFERENCES rentalInstruments (rental_instrument_id);
+ALTER TABLE studentFees ADD CONSTRAINT FK_studentFees_1 FOREIGN KEY (rental_id) REFERENCES rentalInstruments (rental_id);
 
 

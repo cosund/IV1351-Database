@@ -92,24 +92,24 @@ VALUES
 
 INSERT INTO individualLesson
 VALUES
-((SELECT schedule_id FROM schedule WHERE schedule_id='S1'), 'Beginner', (SELECT payment_id FROM paymentClass WHERE payment_id='PA1')),
-((SELECT schedule_id FROM schedule WHERE schedule_id='S10'), 'Beginner',(SELECT payment_id FROM paymentClass WHERE payment_id='PA10')),
-((SELECT schedule_id FROM schedule WHERE schedule_id='S2'), 'Intermediate', (SELECT payment_id FROM paymentClass WHERE payment_id='PA2')),
-((SELECT schedule_id FROM schedule WHERE schedule_id='S3'), 'Advanced', (SELECT payment_id FROM paymentClass WHERE payment_id='PA3')),
-((SELECT schedule_id FROM schedule WHERE schedule_id='S11'), 'Intermediate', (SELECT payment_id FROM paymentClass WHERE payment_id='PA11'));
+('S1', 'Beginner', 'PA1'),
+('S10', 'Beginner', 'PA10'),
+('S2', 'Intermediate', 'PA2'),
+('S3', 'Advanced', 'PA3'),
+('S11', 'Intermediate', 'PA11');
 
 
 INSERT INTO groupLesson
 VALUES
-((SELECT schedule_id FROM schedule WHERE schedule_id='S4'), 'Beginner', '7', (SELECT payment_id FROM paymentClass WHERE payment_id='PA4')),
-((SELECT schedule_id FROM schedule WHERE schedule_id='S5'), 'Intermediate', '5', (SELECT payment_id FROM paymentClass WHERE payment_id='PA5')),
-((SELECT schedule_id FROM schedule WHERE schedule_id='S6'), 'Advanced', '3', (SELECT payment_id FROM paymentClass WHERE payment_id='PA6'));
+('S4', 'Beginner', '7', 'PA4'),
+('S5', 'Intermediate', '5', 'PA5'),
+('S6', 'Advanced', '3', 'PA6');
 
 INSERT INTO ensambleLesson
 VALUES
-((SELECT schedule_id FROM schedule WHERE schedule_id='S7'),'Beginner','Classic','2', '5', (SELECT payment_id FROM paymentClass WHERE payment_id='PA7')),
-((SELECT schedule_id FROM schedule WHERE schedule_id='S8'), 'Intermediate', 'Rock', '2', '5', (SELECT payment_id FROM paymentClass WHERE payment_id='PA8')),
-((SELECT schedule_id FROM schedule WHERE schedule_id='S9'), 'Advanced', 'HipHop', '2', '5', (SELECT payment_id FROM paymentClass WHERE payment_id='PA9')),
+('S7','Beginner','Classic','2', '5',     'PA7'),
+('S8', 'Intermediate', 'Rock', '2', '5', 'PA8'),
+('S9', 'Advanced', 'HipHop', '2', '5',   'PA9'),
 ('S12', 'Beginner', 'Rock', '2', '5', 'PA12'),
 ('S13', 'Intermediate', 'Metal', '2', '5', 'PA13'),
 ('S14', 'Advanced', 'Metalcore', '2', '5', 'PA14');
@@ -139,25 +139,42 @@ VALUES
 ('IN13', 'Guitar', 'Fender', '500'),
 ('IN14', 'Guitar', 'Jackson', '1200'); 
 
+INSERT INTO rentableInstruments
+VALUES
+('1', 'IN1'), 
+('2', 'IN2'), 
+('3', 'IN3'), 
+('4', 'IN4'), 
+('5', 'IN5'), 
+('6', 'IN6'), 
+('7', 'IN7'), 
+('8', 'IN8'), 
+('9', 'IN9'), 
+('10', 'IN10'),
+('11', 'IN11'),
+('12', 'IN12'),
+('13', 'IN13'),
+('14', 'IN14');
+
 INSERT INTO rentalInstruments
 VALUES
-('IN1', '0', '2021-12-01 00:00:00', '2022-02-01 00:00:00'),
-('IN5', '0', '2021-11-06 00:00:00', '2022-01-01 00:00:00'),
-('IN4', '3', '2021-10-07 00:00:00', '2022-03-01 00:00:00'),
-('IN6', '4', '2021-12-01 00:00:00', '2022-01-01 00:00:00'),
-('IN7', '5', '2021-11-05 00:00:00', '2012-07-01 00:00:00'),
-('IN8', '3', '2021-11-01 00:00:00', '2022-02-01 00:00:00'),
-('IN9', '2', '2021-11-01 00:00:00', '2022-02-01 00:00:00');
+('1', '1', '0', '2021-12-01 00:00:00', '2022-02-01 00:00:00'),
+('2', '5', '0', '2021-11-06 00:00:00', '2022-01-01 00:00:00'),
+('3', '4', '3', '2021-10-07 00:00:00', '2022-03-01 00:00:00'),
+('4', '6', '4', '2021-12-01 00:00:00', '2022-01-01 00:00:00'),
+('5', '7', '5', '2021-11-05 00:00:00', '2012-07-01 00:00:00'),
+('6', '8', '3', '2021-11-01 00:00:00', '2022-02-01 00:00:00'),
+('7', '9', '2', '2021-11-01 00:00:00', '2022-02-01 00:00:00');
 
 INSERT INTO studentFees
 VALUES
-('IN1', '0', '2021-12-01 00:00:00', '2022-02-01 00:00:00', '0'),
-('IN5', '0', '2021-11-06 00:00:00', '2022-01-01 00:00:00', '0'),
-('IN4', '3', '2021-10-07 00:00:00', '2022-03-01 00:00:00', '0'),
-('IN6', '4', '2021-12-01 00:00:00', '2022-01-01 00:00:00', '0'),
-('IN7', '5', '2021-11-05 00:00:00', '2012-07-01 00:00:00', '0'),
-('IN8', '3', '2021-11-01 00:00:00', '2022-02-01 00:00:00', '1'),
-('IN9', '2', '2021-11-01 00:00:00', '2022-02-01 00:00:00', '1');
+('1', '0', '2021-12-01 00:00:00', '2022-02-01 00:00:00', '0'),
+('2', '0', '2021-11-06 00:00:00', '2022-01-01 00:00:00', '0'),
+('3', '3', '2021-10-07 00:00:00', '2022-03-01 00:00:00', '0'),
+('4', '4', '2021-12-01 00:00:00', '2022-01-01 00:00:00', '0'),
+('5', '5', '2021-11-05 00:00:00', '2012-07-01 00:00:00', '0'),
+('6', '3', '2021-11-01 00:00:00', '2022-02-01 00:00:00', '1'),
+('7', '2', '2021-11-01 00:00:00', '2022-02-01 00:00:00', '1');
 
 INSERT INTO participants
 VALUES

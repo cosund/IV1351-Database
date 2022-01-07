@@ -78,32 +78,19 @@ public class BlockingInterpreter {
                     case QUIT:
                         keepReceivingCmds = false;
                         break;
-                    case NEW:
-                        ctrl.createAccount(cmdLine.getParameter(0));
-                        break;
-                    case DELETE:
-                        ctrl.deleteAccount(cmdLine.getParameter(0));
-                        break;
+                    
                     case LIST:
                         List<? extends AccountDTO> accounts = null;
-                        if (cmdLine.getParameter(0).equals("")) {
-                            accounts = ctrl.getAllAccounts();
-                        } else {
-                            accounts = ctrl.getAccountsForHolder(cmdLine.getParameter(0));
-                        }
+                       
+                        accounts = ctrl.getAllAccounts(cmdLine.getParameter(0));
+                    
                         for (AccountDTO account : accounts) {
-                            System.out.println("acct no: " + account.getAccountNo() + ", "
-                                             + "holder: " + account.getHolderName() + ", "
-                                             + "balance: " + account.getBalance());
+                            System.out.println("Type: " + account.getAccountNo() + ", "
+                                             + " Price: " + account.getBalance() + ", "
+                                             + " Brand: " + account.getBrand() + ", "
+                                             + " Instrument_id: " + account.getrentable());
+
                         }
-                        break;
-                    case DEPOSIT:
-                        ctrl.deposit(cmdLine.getParameter(0), 
-                                     Integer.parseInt(cmdLine.getParameter(1)));
-                        break;
-                    case WITHDRAW:
-                        ctrl.withdraw(cmdLine.getParameter(0), 
-                                      Integer.parseInt(cmdLine.getParameter(1)));
                         break;
                     case BALANCE:
                         AccountDTO acct = ctrl.getAccount(cmdLine.getParameter(0));

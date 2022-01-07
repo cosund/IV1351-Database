@@ -138,8 +138,10 @@ public class Account implements AccountDTO {
     }
 
     @Override
-    public String getHolderName() {
+    public String getrentable() {
         // TODO Auto-generated method stub
-        return null;
+        return rentable_id;
     }
+
+ 
 }

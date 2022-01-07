@@ -40,5 +40,9 @@ public interface AccountDTO {
     /**
      * @return The holder's name.
      */
-    public String getHolderName();
+   
+
+    public String getBrand();
+
+    public String getrentable();
 }

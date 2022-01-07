@@ -69,45 +69,45 @@ public class SoundGoodDAO {
     private void prepareStatements() throws SQLException {
 
         listRentableInstrumentStmt = connection.prepareStatement(
-            "SELECT rentableinstruments.rentable_id, instrument.type, instrument.brand, instrument.instrument_price"
-            + "FROM rentableinstruments"
-            + "INNER JOIN instrument ON rentableinstruments.rental_instrument_id=instrument.rental_instrument_id"
-            + "WHERE rentableinstruments.rentable_id"
-            + "NOT IN ("
-            + "SELECT rentable_id FROM rentalinstruments"
-            + "WHERE current_date >= from_date and current_date < to_date)"
-            + "AND instrument.type= ?");
+            " SELECT rentableinstruments.rentable_id, instrument.type, instrument.brand, instrument.instrument_price"
+            + " FROM rentableinstruments"
+            + " INNER JOIN instrument ON rentableinstruments.rental_instrument_id=instrument.rental_instrument_id"
+            + " WHERE rentableinstruments.rentable_id"
+            + " NOT IN ("
+            + " SELECT rentable_id FROM rentalinstruments"
+            + " WHERE current_date >= from_date and current_date < to_date)"
+            + " AND instrument.type= ?");
 
         checkStudentRentsStmt = connection.prepareStatement(
-            "SELECT COUNT(*)"
-            + "FROM rentalinstruments WHERE student_id= ? " 
-            + "AND current_date < to_date"
+            " SELECT COUNT(*)"
+            + " FROM rentalinstruments WHERE student_id= ? " 
+            + " AND current_date < to_date"
         );
 
         checkInstrumentAvailableStmt = connection.prepareStatement(
-            "SELECT COUNT(*) "
-            + "FROM rentableinstruments " 
-            + "WHERE rentableinstruments.rentable_id='1' " 
-            + "AND  rentableinstruments.rentable_id NOT IN ("
-            + "SELECT rental_id"
-            + "FROM rentalinstruments"
-            + "WHERE current_date >= from_date AND current_date < to_date)"
+            " SELECT COUNT(*) "
+            + " FROM rentableinstruments " 
+            + " WHERE rentableinstruments.rentable_id= ? " 
+            + " AND  rentableinstruments.rentable_id NOT IN ("
+            + " SELECT rental_id"
+            + " FROM rentalinstruments"
+            + " WHERE current_date >= from_date AND current_date < to_date)"
         );
 
         insertRentalStmt = connection.prepareStatement(
-            "INSERT INTO rentalinstruments"
-            + "VALUES ('14', '4', '0',current_date, current_date+365)"
+            " INSERT INTO rentalinstruments"
+            + " VALUES ( ? , ? , ? , current_date, current_date+365)"
         );
 
         terminateRentalStmt = connection.prepareStatement(
-            "UPDATE rentalinstruments " 
-            + "SET to_date = current_date "
-            + "WHERE rental_id = (" 
-            + "SELECT rental_id "
-            + "FROM rentalinstruments"
-            + "WHERE rentable_id= ? AND student_id= ?"
-            + "AND current_date < to_date"
-            + "ORDER BY to_date DESC LIMIT 1)");
+            " UPDATE rentalinstruments " 
+            + " SET to_date = current_date "
+            + " WHERE rental_id = (" 
+            + " SELECT rental_id "
+            + " FROM rentalinstruments"
+            + " WHERE rentable_id= ? AND student_id= ?"
+            + " AND current_date < to_date"
+            + " ORDER BY to_date DESC LIMIT 1)");
     }
     public List<Account> findRentableInstrumentByType(String instrument_type) throws SoundGoodDBException{
         String failureMsg = "Could not search for specified type.";
@@ -146,7 +146,36 @@ public class SoundGoodDAO {
 
    }
 
+   public int rentableInstruments(String instrument_id){
+    try {
+        checkInstrumentAvailableStmt.setString(1, instrument_id);
+           ResultSet available = checkInstrumentAvailableStmt.executeQuery();
+           available.next();
+           return Integer.parseInt(available.getString(1));
+    } catch (Exception e) {
+        return 666;
+    }
+   }
 
+   public void rentInstrument(String rental_id, String instrument_id, String student_id){
+        String failureMsg = "Could not find rented instrument: " + rental_id;
+       try {
+           insertRentalStmt.setString(1, rental_id);
+           insertRentalStmt.setString(2, instrument_id);
+           insertRentalStmt.setString(3, rental_id);
+           int updateRows = insertRentalStmt.executeUpdate();
+           if (updateRows != 1) {
+            handleException(failureMsg, null);
+        }
+        else {
+            System.out.println("Successfully rented instrument " + rental_id + " by student " + student_id);
+            connection.commit();
+        }
+       } catch (Exception e) {
+           
+       }
+
+   }
 
     public void terminateRent(String rental_id , String student_id) throws SoundGoodDBException{
         String failureMsg = "Could not find rented instrument: " + rental_id;
@@ -184,8 +213,8 @@ public class SoundGoodDAO {
     }
 
     private void connectToBankDB() throws ClassNotFoundException, SQLException {
-        connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/bankdb",
-                                                 "postgres", "postgres");
+        connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/soundgooddb",
+                                                 "postgres", "example");
         // connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/bankdb",
         //                                          "mysql", "mysql");
         connection.setAutoCommit(false);

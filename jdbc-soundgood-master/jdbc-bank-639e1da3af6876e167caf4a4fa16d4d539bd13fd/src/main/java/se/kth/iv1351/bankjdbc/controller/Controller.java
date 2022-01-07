@@ -66,10 +66,14 @@ public class Controller {
         }
     }
 
-    public void rentedInstruments(String student_id) {
+    public void rentedInstruments(String student_id, String instrument_id) {
         try {
             if(bankDb.checkStudentRents(student_id) < 2){
                 System.out.println("This student can still rent an instrument.");
+                
+                //if((bankDb.rentableInstruments(instrument_id) > 0 )
+                  //  rentInstrument();
+
             }
             else {
                 System.out.println("This student can not rent any more instruments.");
@@ -79,7 +83,17 @@ public class Controller {
         }
     }
 
+
     
+    private void rentInstrument() {
+        try {
+
+            
+        } catch (Exception e) {
+            
+        }
+    }
+
     /**
      * Retrieves the account with the specified number.
      * 

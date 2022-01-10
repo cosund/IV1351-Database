@@ -132,7 +132,7 @@ VALUES
 ('IN6', 'Bass', 'Gibson', '800'),
 ('IN7', 'Bass', 'Schecter', '700'),
 ('IN8', 'Violin', 'Mendini', '1300'),
-('IN9', 'Violin', 'Mendini', '13'),
+('IN9', 'Violin', 'Mendini', '1300'),
 ('IN10', 'Violin', 'Stradivarius', '10000'),
 ('IN11', 'Piano', 'Bechstein', '1000'),
 ('IN12', 'Piano', 'FAZIOLI', '2000'),
